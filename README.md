@@ -1,4 +1,4 @@
-## amis-py
+## amis-python
 基于[百度amis](https://github.com/baidu/amis)前端框架的python pydantic模型封装。
 
 由于[原版本](https://github.com/amisadmin/fastapi_amis_admin/tree/master/fastapi_amis_admin/amis)缺少大量amis新版本的组件，因此本项目在其版本的基础上进行了扩充。
@@ -9,11 +9,11 @@
 - 支持修改主题
 ## 安装
 ```
-pip install amis-py
+pip install amis-python
 ```
 ## 简单使用
 ```python
-from amis_py.components import Page
+from amis.components import Page
 
 page = Page(title='新页面', body='Hello World')
 # 输出为python字典

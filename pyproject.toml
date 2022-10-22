@@ -1,17 +1,16 @@
 [tool.poetry]
-name = "amis-py"
+name = "amis-python"
 version = "1.0.0"
 description = "基于百度amis前端框架的python pydantic模型封装。"
 authors = ["惜月 <277073121@qq.com>"]
 readme = "README.md"
 license = "Apache-2.0"
-keywords = ["amis", "pydantic"]
+keywords = ["amis"]
 homepage = "https://github.com/CMHopeSunshine/amis-py"
 repository = "https://github.com/CMHopeSunshine/amis-py"
 documentation = "https://github.com/CMHopeSunshine/amis-py#readme"
 packages = [
-    { include = "amis_py/*.py", from = ".."},
-    { include = "amis_py/*.jinja2", from = ".."}
+    { include = "amis/*", from = "."}
 ]
 
 
