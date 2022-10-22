@@ -2510,7 +2510,7 @@ class InputKV(FormItem):
     """value 的提示信息"""
     draggable: bool = None
     """是否可拖拽排序"""
-    defaultValue = None
+    defaultValue: Any = None
     """默认值"""
 
 
@@ -2722,7 +2722,7 @@ class TreeSelect(InputTree):
 
 class JSONSchema(FormItem):
     type: str = 'json-schema'
-    schema: Union[str, dict] = None
+    schema_: Union[str, dict] = Field(None, alias='schema')
     """指定 json-schema"""
 
 
