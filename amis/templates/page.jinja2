@@ -29,7 +29,10 @@
         <script type="text/javascript">
             let amis = amisRequire('amis/embed');
             let amisJson = {{ AmisSchemaJson }};
-            let amisScoped = amis.embed('#root', amisJson, {locale: "{{ locale }}"});
+            let amisScoped = amis.embed('#root', amisJson, {locale: "{{ locale }}"}, {
+                {{ requestAdaptor }}
+                {{ responseAdaptor }}
+            });
         </script>
     </body>
 </html>

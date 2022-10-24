@@ -134,6 +134,8 @@ class Page(AmisNode):
             site_title: str = 'Amis',
             site_icon: str = '',
             theme: str = 'default',
+            requestAdaptor: str = '',
+            responseAdaptor: str = '',
 
     ) -> str:
         """渲染html模板"""
@@ -154,6 +156,8 @@ class Page(AmisNode):
                 'site_icon':      site_icon,
                 'theme_css':      theme_css,
                 'theme_name':     theme_name,
+                'requestAdaptor': requestAdaptor,
+                'responseAdaptor': responseAdaptor
             }
         )
 
@@ -699,14 +703,14 @@ class App(Page):
     """页面菜单下前面区域。"""
     footer: SchemaNode = None
     """页面。"""
-    pages: List[PageSchema] = None
+    pages: List[Union[PageSchema, dict]] = None
     """Array<页面配置>具体的页面配置。通常为数组，数组第一层为分组，一般只需要配置 label 集合，如果你不想分组，直接不配置，真正的页面请在第二层开始配置，即第一层的 children 中。"""
 
 
 class ButtonGroup(AmisNode):
     """按钮组"""
     type: str = 'button-group'
-    buttons: List[Action]
+    buttons: List[Action] = None
     """行为按钮组"""
     className: str = None
     """外层 Dom 的类名"""
@@ -714,6 +718,10 @@ class ButtonGroup(AmisNode):
     """是否使用垂直模式"""
     tiled: bool = None
     """是否使用平铺模式"""
+    btnLevel: Literal['link', 'primary', 'secondary', 'info', 'success', 'warning', 'danger', 'light', 'dark', 'default'] = None
+    """按钮样式"""
+    btnActiveLevel: Literal['link', 'primary', 'secondary', 'info', 'success', 'warning', 'danger', 'light', 'dark', 'default'] = None
+    """激活按钮样式"""
 
 
 class Breadcrumb(AmisNode):
@@ -789,7 +797,7 @@ class DropDownButton(AmisNode):
     """尺寸"""
     align: Literal['left', 'right'] = None
     """位置"""
-    buttons: List['DropDownButton'] = None
+    buttons: SchemaNode = None
     """配置下拉按钮"""
     iconOnly: bool = None
     """只显示icon"""
@@ -1171,7 +1179,7 @@ class Form(AmisNode):
     """form 还没保存，即将离开页面前是否弹框确认。"""
     columnCount: int = None
     """表单项显示为几列"""
-    debug: bool = None
+    labelAlign: str = None
 
 
 class Button(FormItem):
@@ -1560,9 +1568,7 @@ class Markdown(AmisNode):
     src: API = None
     """外部地址"""
     options: Dict[Literal["html", "linkify", "breaks"], bool] = None
-    """html，是否支持 html 标签，默认 false;"""
-    """linkify，是否自动识别链接，默认值是 true;breaks，是否回车就是换行，默认 false"""
-    """breaks，是否回车就是换行，默认 false"""
+    """html，是否支持 html 标签，默认 false; linkify，是否自动识别链接，默认值是 true;breaks，是否回车就是换行，默认 false; breaks，是否回车就是换行，默认 false"""
 
 
 class InputFile(FormItem):
@@ -2586,27 +2592,25 @@ class Transfer(FormItem):
     source: API = None
     """动态选项组"""
     delimiter: str = None
-    """"False"  # 拼接符"""
+    """拼接符"""
     joinValues: bool = None
-    """True  # 拼接值"""
+    """拼接值"""
     extractValue: bool = None
-    """False  # 提取值"""
+    """提取值"""
     searchable: bool = None
-    """False  # 当设置为 true 时表示可以通过输入部分内容检索出选项。"""
+    """当设置为 true 时表示可以通过输入部分内容检索出选项。"""
     searchApi: API = None
     """如果想通过接口检索，可以设置个 api。"""
     statistics: bool = None
-    """True  # 是否显示统计数据"""
+    """是否显示统计数据"""
     selectTitle: str = None
-    """"请选择"  # 左侧的标题文字"""
+    """左侧的标题文字"""
     resultTitle: str = None
-    """"当前选择"  # 右侧结果的标题文字"""
+    """右侧结果的标题文字"""
     sortable: bool = None
-    """False  # 结果可以进行拖拽排序"""
+    """结果可以进行拖拽排序"""
     selectMode: str = None
-    """"list"  # 可选：list、table、tree、chained、associated。分别为：列表形式、表格形式、树形选择形式、"""
-
-    """级联选择形式，关联选择形式（与级联选择的区别在于，级联是无限极，而关联只有一级，关联左边可以是个 tree）。"""
+    """可选：list、table、tree、chained、associated。分别为：列表形式、表格形式、树形选择形式、级联选择形式，关联选择形式（与级联选择的区别在于，级联是无限极，而关联只有一级，关联左边可以是个 tree）。"""
     searchResultMode: str = None
     """如果不设置将采用 selectMode 的值，可以单独配置，参考 selectMode，决定搜索结果的展示形式。"""
     columns: List[dict] = None
@@ -2621,6 +2625,8 @@ class Transfer(FormItem):
     """用来自定义选项展示"""
     valueTpl: SchemaNode = None
     """用来自定义值的展示"""
+    multiple: bool = None
+    """是否多选"""
 
 
 class TransferPicker(Transfer):
@@ -3006,12 +3012,32 @@ class CRUD(AmisNode):
     """实现点击某一行后进行自定义操作，支持 action 里的所有配置，比如弹框、刷新其它组件等。"""
 
 
+class AmisList(AmisNode):
+    class Item(AmisNode):
+        title: Template = None
+        titleClassName: str = None
+        subTitle: Template = None
+        avatar: Template = None
+        avatarClassName: str = None
+        desc: Template = None
+        body: dict = None
+        actions: List[Action] = None
+        actionsPosition: Literal['left', 'right'] = None
+
+    type: str = 'list'
+    title: str = None
+    source: str = None
+    placeholder: str = None
+    className: str = None
+    headerClassName: str = None
+    footerClassName: str = None
+    listItem: Item = None
+
+
 class TableColumn(AmisNode):
     """列配置"""
     type: str = None
-    """Literal['text','audio','image','link','tpl','mapping','carousel','date',"""
-
-    """'progress','status','switch','list','json','operation']"""
+    """Literal['text','audio','image','link','tpl','mapping','carousel','date', 'progress','status','switch','list','json','operation']"""
     label: Template = None
     """表头文本内容"""
     name: str = None
@@ -3049,6 +3075,12 @@ class ColumnOperation(TableColumn):
     """操作"""
     toggled: bool = True
     buttons: List[Union[Action, AmisNode]] = None
+
+
+class ColumnList(AmisList, TableColumn):
+    """列表列"""
+    pass
+
 
 
 class ColumnImage(Image, TableColumn):
@@ -3339,27 +3371,6 @@ class Link(AmisNode):
     rightIcon: str = None
     """右侧图标"""
 
-
-class AmisList(AmisNode):
-    class Item(AmisNode):
-        title: Template = None
-        titleClassName: str = None
-        subTitle: Template = None
-        avatar: Template = None
-        avatarClassName: str = None
-        desc: Template = None
-        body: dict = None
-        actions: List[Action] = None
-        actionsPosition: Literal['left', 'right'] = None
-
-    type: str = 'list'
-    title: str = None
-    source: str = None
-    placeholder: str = None
-    className: str = None
-    headerClassName: str = None
-    footerClassName: str = None
-    listItem: Item = None
 
 
 class Log(AmisNode):
@@ -3696,7 +3707,8 @@ class TableCRUD(CRUD, Table):
 
 class CardsCRUD(CRUD, Cards):
     """卡片CRUD"""
-    pass
+    columnsCount: int = None
+    """每行显示的卡片数量"""
 
 
 class Avatar(AmisNode):

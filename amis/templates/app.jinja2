@@ -101,9 +101,8 @@
                     app,
                     {location: history.location, locale: "{{ locale }}"},
                     {
-                        // watchRouteChange: fn => {
-                        //   return history.listen(fn);
-                        // },
+                        {{ requestAdaptor }}
+                        {{ responseAdaptor }}
                         updateLocation: (location, replace) => {
                             location = normalizeLink(location);
                             if (location === 'goBack') {
