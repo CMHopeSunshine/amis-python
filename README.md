@@ -1,4 +1,9 @@
 ## amis-python
+<p align="center">
+    <a href="https://cdn.jsdelivr.net/gh/CMHopeSunshine/amis-python@master/LICENSE"><img src="https://img.shields.io/github/license/CMHopeSunshine/amis-python" alt="license"></a>
+    <img src="https://img.shields.io/badge/Python-3.7+-yellow" alt="python">
+    <img src="https://img.shields.io/pypi/v/amis-python" alt="version">
+</p>
 基于[百度amis](https://github.com/baidu/amis)前端框架的python pydantic模型封装。
 
 由于[原版本](https://github.com/amisadmin/fastapi_amis_admin/tree/master/fastapi_amis_admin/amis)缺少大量amis新版本的组件，因此本项目在其版本的基础上进行了扩充。
