@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
         <link href="{{ site_icon }}" rel="shortcut icon" type="image/x-icon"/>
-        <link href="{{ cdn }}/amis@{{ version }}/sdk/sdk.css" rel="stylesheet" title="default"/>
+        <link href="{{ cdn }}/amis@{{ version }}/sdk/{{ theme_css }}" rel="stylesheet" title="default"/>
         <link href="{{ cdn }}/amis@{{ version }}/sdk/helper.css" rel="stylesheet"/>
         <link href="{{ cdn }}/amis@{{ version }}/sdk/iconfont.css" rel="stylesheet"/>
         <script src="{{ cdn }}/amis@{{ version }}/sdk/sdk.js"></script>
@@ -32,6 +32,7 @@
             let amisScoped = amis.embed('#root', amisJson, {locale: "{{ locale }}"}, {
                 {{ requestAdaptor }}
                 {{ responseAdaptor }}
+                theme: '{{ theme_name }}'
             });
         </script>
     </body>
