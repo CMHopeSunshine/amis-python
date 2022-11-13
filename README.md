@@ -4,9 +4,10 @@
     <img src="https://img.shields.io/badge/Python-3.7+-yellow" alt="python">
     <img src="https://img.shields.io/pypi/v/amis-python" alt="version">
 </p>
-基于[百度amis](https://github.com/baidu/amis)前端框架的python pydantic模型封装。
 
-由于[原版本](https://github.com/amisadmin/fastapi_amis_admin/tree/master/fastapi_amis_admin/amis)缺少大量amis新版本的组件，因此本项目在其版本的基础上进行了扩充。
+基于 [百度amis](https://github.com/baidu/amis) 前端框架的python pydantic模型封装。
+
+由于[原版本](https://github.com/amisadmin/fastapi_amis_admin/tree/master/fastapi_amis_admin/amis)缺少大量amis新版本的组件或配置，因此本项目在其版本的基础上进行了扩充。
 
 相比fastapi-amis-admin的版本：
 - 涵盖amis截至2.3.1版本的所有组件

@@ -38,12 +38,14 @@ class Remark(AmisNode):
     """外层 CSS 类名"""
     content: str = None
     """提示文本"""
+    shape: str = None
+    """形状"""
     placement: str = None
     """弹出位置"""
     trigger: str = None
     """触发条件 ['hover','focus']"""
     icon: str = None
-    """"fa fa-question-circle"  # 图标"""
+    """图标"""
 
 
 class Badge(AmisNode):
@@ -148,15 +150,15 @@ class Page(AmisNode):
         template_name = template_name or self.__default_template_path__
         return env.get_template(template_name).render(
             **{
-                'AmisSchemaJson': self.to_json(),
-                'locale':         locale,
-                'cdn':            cdn,
-                'version':        version,
-                'site_title':     site_title,
-                'site_icon':      site_icon,
-                'theme_css':      theme_css,
-                'theme_name':     theme_name,
-                'requestAdaptor': requestAdaptor,
+                'AmisSchemaJson':  self.to_json(),
+                'locale':          locale,
+                'cdn':             cdn,
+                'version':         version,
+                'site_title':      site_title,
+                'site_icon':       site_icon,
+                'theme_css':       theme_css,
+                'theme_name':      theme_name,
+                'requestAdaptor':  requestAdaptor,
                 'responseAdaptor': responseAdaptor
             }
         )
@@ -528,8 +530,8 @@ class Action(AmisNode):
     type: str = "button"
     """指定为 Page 渲染器。 button  action"""
     actionType: Literal[
-        "ajax", "link", "url", "drawer", "dialog", "confirm", "cancel", "prev", "next", "copy", "close"] = None
-    """【必填】这是 action 最核心的配置，来指定该 action 的作用类型，支持：ajax、link、url、drawer、dialog、confirm、cancel、prev、next、copy、close。"""
+        "ajax", "link", "url", "drawer", "dialog", "confirm", "cancel", "prev", "next", "copy", "close", "reload"] = None
+    """【必填】这是 action 最核心的配置，来指定该 action 的作用类型，支持：ajax、link、url、drawer、dialog、confirm、cancel、prev、next、copy、close、reload。"""
     label: str = None
     """按钮文本。可用 ${xxx} 取值。"""
     level: LevelEnum = None
@@ -538,6 +540,8 @@ class Action(AmisNode):
     """按钮大小，支持：xs、sm、md、lg。"""
     icon: str = None
     """设置图标，例如fa fa-plus。"""
+    className: str = None
+    """类名"""
     iconClassName: str = None
     """给图标上添加类名。"""
     rightIcon: str = None
@@ -718,9 +722,11 @@ class ButtonGroup(AmisNode):
     """是否使用垂直模式"""
     tiled: bool = None
     """是否使用平铺模式"""
-    btnLevel: Literal['link', 'primary', 'secondary', 'info', 'success', 'warning', 'danger', 'light', 'dark', 'default'] = None
+    btnLevel: Literal[
+        'link', 'primary', 'secondary', 'info', 'success', 'warning', 'danger', 'light', 'dark', 'default'] = None
     """按钮样式"""
-    btnActiveLevel: Literal['link', 'primary', 'secondary', 'info', 'success', 'warning', 'danger', 'light', 'dark', 'default'] = None
+    btnActiveLevel: Literal[
+        'link', 'primary', 'secondary', 'info', 'success', 'warning', 'danger', 'light', 'dark', 'default'] = None
     """激活按钮样式"""
 
 
@@ -833,7 +839,7 @@ class Service(AmisNode):
     """内容容器"""
     api: API = None
     """初始化数据域接口地址"""
-    ws: str = None
+    ws: Union[str, dict] = None
     """WebScocket 地址"""
     dataProvider: str = None
     """数据获取函数"""
@@ -1243,7 +1249,7 @@ class ButtonGroupSelect(FormItem):
     """按钮样式"""
     btnActiveLevel: LevelEnum = None
     """选中按钮样式"""
-    options: List[OptionsNode] = None
+    options: OptionsNode = None
     """选项组"""
     source: API = None
     """动态选项组"""
@@ -1700,6 +1706,10 @@ class InputTable(FormItem):
 class InputTag(FormItem):
     """标签选择器"""
     type: str = 'input-tag'
+    source: API = None
+    enableBatchAdd: bool = None
+    joinValues: bool = None
+    extractValue: bool = None
 
 
 class ListSelect(FormItem):
@@ -1901,7 +1911,7 @@ class InputNumber(FormItem):
     """最小值"""
     max: Union[int, Template] = None
     """最大值"""
-    step: int = None
+    step: Union[float, int] = None
     """步长"""
     precision: int = None
     """精度，即小数点后几位"""
@@ -1948,7 +1958,6 @@ class Picker(FormItem):
     """即用 List 类型的渲染，来展示列表信息。更多配置参考 CRUD"""
     embed: bool = None
     """False # 是否使用内嵌模式"""
-
 
 
 class Switch(FormItem):
@@ -2339,7 +2348,6 @@ class InputYear(InputDate):
     type: str = 'input-year'
 
 
-
 class Radios(FormItem):
     type: str = 'radios'
     options: OptionsNode = None
@@ -2449,7 +2457,7 @@ class InputRange(FormItem):
 class InputRepeat(FormItem):
     """重复频率选择器"""
     type: str = 'input-repeat'
-    options: List[Literal['secondly','minutely','hourly','daily','weekdays','weekly','monthly','yearly']] = None
+    options: List[Literal['secondly', 'minutely', 'hourly', 'daily', 'weekdays', 'weekly', 'monthly', 'yearly']] = None
     """可用配置"""
     placeholder: str = None
     """当不指定值时的说明。"""
@@ -3046,7 +3054,7 @@ class TableColumn(AmisNode):
     """模板"""
     fixed: str = None
     """是否固定当前列 left|right|none"""
-    popOver: Union[bool, dict] = None
+    popOver: Union[bool, dict, str] = None
     """弹出框"""
     quickEdit: Union[bool, dict] = None
     """快速编辑"""
@@ -3080,7 +3088,6 @@ class ColumnOperation(TableColumn):
 class ColumnList(AmisList, TableColumn):
     """列表列"""
     pass
-
 
 
 class ColumnImage(Image, TableColumn):
@@ -3237,7 +3244,7 @@ class Chart(AmisNode):
     """内容容器"""
     api: API = None
     """配置项接口地址"""
-    source: dict = None
+    source: Union[dict, str] = None
     """通过数据映射获取数据链中变量值作为配置"""
     initFetch: bool = None
     """组件初始化时，是否请求接口"""
@@ -3291,6 +3298,7 @@ class Color(AmisNode):
     showValue: bool = None
     """是否显示右边的颜色值"""
 
+
 class Date(AmisNode):
     """日期时间"""
     type: str = 'date'
@@ -3325,7 +3333,6 @@ class Each(AmisNode):
     """使用value中的数据，循环输出渲染器。"""
     placeholder: str = None
     """当 value 值不存在或为空数组时的占位文本"""
-
 
 
 class Json(AmisNode):
@@ -3372,22 +3379,21 @@ class Link(AmisNode):
     """右侧图标"""
 
 
-
 class Log(AmisNode):
     """实时日志"""
     type: str = "log"
     source: API = None
     """支持变量,可以初始设置为空，这样初始不会加载，而等这个变量有值的时候再加载"""
     height: int = None
-    """500  # 展示区域高度"""
+    """展示区域高度"""
     className: str = None
     """外层 CSS 类名"""
     autoScroll: bool = None
-    """True  # 是否自动滚动"""
+    """是否自动滚动"""
     placeholder: str = None
     """加载中的文字"""
     encoding: str = None
-    """"utf-8"  # 返回内容的字符编码"""
+    """"返回内容的字符编码"""
     rowHeight: int = None
     """设置每行高度，将会开启虚拟渲染"""
     maxLength: int = None
@@ -3446,6 +3452,7 @@ class Progress(AmisNode):
 
 class Steps(AmisNode):
     """步骤条"""
+
     class Step(AmisNode):
         title: Union[str, SchemaNode] = None
         subTitle: Union[str, SchemaNode] = None
@@ -3463,7 +3470,8 @@ class Steps(AmisNode):
     """关联上下文变量"""
     value: Union[str, int] = None
     """	设置默认值，注意不支持表达式"""
-    status: Union[Literal['wait', 'process', 'finish', 'error'], Dict[str, Literal['wait', 'process', 'finish', 'error']]] = None
+    status: Union[
+        Literal['wait', 'process', 'finish', 'error'], Dict[str, Literal['wait', 'process', 'finish', 'error']]] = None
     """状态"""
     className: str = None
     """自定义类名"""
@@ -3748,7 +3756,7 @@ class Audio(AmisNode):
     """是否自动播放"""
     rates: List[float] = None
     """可配置音频播放倍速如：[1.0, 1.5, 2.0]"""
-    controls: List[Literal['rates','play','time','process','volume']] = None
+    controls: List[Literal['rates', 'play', 'time', 'process', 'volume']] = None
     """内部模块定制化"""
 
 
