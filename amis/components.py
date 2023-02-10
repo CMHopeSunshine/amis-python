@@ -1190,6 +1190,7 @@ class Form(AmisNode):
 
 class Button(FormItem):
     """按钮"""
+    type: str = 'button'
     className: str = None
     """指定添加 button 类名"""
     href: str = None
