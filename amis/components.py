@@ -1045,7 +1045,7 @@ class FormItem(AmisNode):
     """label 的类名"""
     name: str = None
     """字段名，指定该表单项提交时的 key"""
-    label: Template = None
+    label: Union[Literal[False], Template] = None
     """表单项标签  模板或false"""
     value: Union[int, str] = None
     """字段的值"""
