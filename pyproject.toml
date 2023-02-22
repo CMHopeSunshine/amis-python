@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "amis-python"
-version = "1.0.6"
+version = "1.0.7"
 description = "基于百度amis前端框架的python pydantic模型封装。"
 authors = ["惜月 <277073121@qq.com>"]
 readme = "README.md"
