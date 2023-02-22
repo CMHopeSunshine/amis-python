@@ -529,9 +529,8 @@ class Action(AmisNode):
     """行为按钮"""
     type: str = "button"
     """指定为 Page 渲染器。 button  action"""
-    actionType: Literal[
-        "ajax", "link", "url", "drawer", "dialog", "confirm", "cancel", "prev", "next", "copy", "close", "reload"] = None
-    """【必填】这是 action 最核心的配置，来指定该 action 的作用类型，支持：ajax、link、url、drawer、dialog、confirm、cancel、prev、next、copy、close、reload。"""
+    actionType: str = None
+    """这是 action 最核心的配置，来指定该 action 的作用类型，支持：ajax、link、url、drawer、dialog、confirm、cancel、prev、next、copy、close、reload。"""
     label: str = None
     """按钮文本。可用 ${xxx} 取值。"""
     level: LevelEnum = None
