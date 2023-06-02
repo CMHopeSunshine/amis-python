@@ -7,7 +7,7 @@ except ImportError:
 from pydantic import BaseModel, Extra
 
 Expression = str
-Template = Union[str, "Tpl"]
+Template = Union[str, "Tpl", dict]
 SchemaNode = Union[Template, "AmisNode", List["AmisNode"], dict]
 OptionsNode = Union[List[dict], List[str]]
 
@@ -36,23 +36,37 @@ class BaseAmisModel(BaseModel):
 class BaseAmisApiOut(BaseAmisModel):
     """api接口输出数据格式"""
     status: int = 0
+    """状态码，0代表成功，其他代表失败"""
     msg: str = ''
+    """提示信息"""
     data: dict = None
+    """回传数据"""
 
 
 class AmisNode(BaseAmisModel):
     """组件配置"""
-    type: str = None  # 组件类型
-    visible: bool = None  # 显示
-    hidden: bool = None  # 隐藏
-    visibleOn: Expression = None  # 条件显示
-    hiddenOn: Expression = None  # 条件显示
+    type: str = None
+    """组件类型"""
+    visible: bool = None
+    """是否显示，True为显示,False为隐藏，默认为True"""
+    hidden: bool = None
+    """是否隐藏，True为隐藏,false为显示，默认为False"""
+    visibleOn: Expression = None
+    """显示表达式"""
+    hiddenOn: Expression = None
+    """隐藏表达式"""
     id: str = None
+    """组件ID"""
+    name: str = None
+    """组件字段名"""
+    value: str = None
+    """组件字段值"""
     onEvent: dict = None
+    """组件事件"""
 
 
 class AmisAPI(BaseAmisModel):
-    url: Template
+    url: Template = None
     """当前接口 Api 地址"""
     method: Literal["get", "post", "put", "delete"] = None
     """请求方式 支持：get、post、put、delete"""
@@ -101,23 +115,42 @@ class AmisAPI(BaseAmisModel):
     配置跟踪变量表达式,当开启自动刷新的时候，默认是 api 的 url 来自动跟踪变量变化的。
     如果你希望监控 url 外的变量，请配置 traceExpression。
     """
+    messages: Dict[str, Any] = None
+    """
+    - 配置接口请求的提示信息，
+    - messages.success 表示请求成功提示信息
+    - messages.failed 表示请求失败提示信息
+    """
 
 
 API = Union[str, AmisAPI, dict]
 
 
 class Tpl(AmisNode):
-    type: str = "tpl"  # 指定为 Tpl 组件
-    tpl: str  # 配置模板
-    className: str = None  # 外层 Dom 的类名
+    type: str = "tpl"
+    """指定为 Tpl 组件"""
+    tpl: Template = None
+    """配置模板"""
+    className: str = None
+    """外层 Dom 的类名"""
+    showNativeTitle: bool = None
+    """是否设置外层 DOM 节点的 title 属性为文本内容"""
 
 
 class Event(BaseAmisModel):
-    actionType: str = None  # 动作名称
-    args: dict = None  # 动作参数{key:value}，支持数据映射
-    # "False"  # 阻止事件默认行为，> 1.10.0 及以上版本支持表达式
-    preventDefault: Union[bool, Expression] = None
-    # "False"  # 停止后续动作执行，> 1.10.0 及以上版本支持表达式
-    stopPropagation: Union[bool, Expression] = None
-    expression: Union[bool, Expression] = None  # 执行条件，不设置表示默认执行
-    outputVar: str = None  # 输出数据变量名
+    actionType: str = None
+    """动作名称"""
+    args: dict = None
+    """动作参数{key:value}，支持数据映射"""
+    data: Dict[str, Any] = None
+    """追加数据{key:value}，支持数据映射，如果是触发其他组件的动作，则该数据会传递给目标组件，> 2.3.2 及以上版本"""
+    dataMergeMode: str = "merge"
+    """当配置了 data 的时候，可以控制数据追加方式，支持合并(merge)和覆盖(override)两种模式，> 2.3.2 及以上版本"""
+    preventDefault: Union[bool, Expression] = False
+    """阻止事件默认行为，> 1.10.0 及以上版本支持表达式，> 2.9.0 及以上版本支持ConditionBuilder"""
+    stopPropagation: Union[bool, Expression] = False
+    """停止后续动作执行，> 1.10.0 及以上版本支持表达式，> 2.9.0 及以上版本支持ConditionBuilder"""
+    expression: Union[bool, Expression] = None
+    """执行条件，不设置表示默认执行，> 1.10.0 及以上版本支持表达式，> 2.9.0 及以上版本支持ConditionBuilder"""
+    outputVar: str = None
+    """输出数据变量名"""

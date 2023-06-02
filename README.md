@@ -10,7 +10,7 @@
 由于[原版本](https://github.com/amisadmin/fastapi_amis_admin/tree/master/fastapi_amis_admin/amis)缺少大量amis新版本的组件或配置，因此本项目在其版本的基础上进行了扩充。
 
 相比fastapi-amis-admin的版本：
-- 涵盖amis截至2.3.1版本的所有组件
+- 涵盖amis截至3.1.0版本的所有组件
 - 使用jinja2模板
 - 支持修改主题
 ## 安装
