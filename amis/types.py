@@ -72,13 +72,13 @@ class AmisAPI(BaseAmisModel):
     """请求方式 支持：get、post、put、delete"""
     data: Union[str, dict] = None
     """请求的数据体,支持数据映射"""
-    dataType: str = None
+    dataType: str = "json"
     """
     - 默认为 json 可以配置成 form 或者 form-data
     - 当 data 中包含文件时，自动会采用 form-data（multipart/form-data） 格式。
     - 当配置为 form 时为 application/x-www-form-urlencoded 格式
     """
-    qsOptions: Union[str, dict] = None
+    qsOptions: Union[str, dict] ={ "arrayFormat": 'indices', "encodeValuesOnly": True }
     """
     - 当 dataType 为 form 或者 form-data 的时候有用
     - 具体参数请参考这里，默认设置为: { arrayFormat: 'indices', encodeValuesOnly: true }
@@ -99,7 +99,7 @@ class AmisAPI(BaseAmisModel):
     - 可用来映射的数据为接口的实际数据（接口返回的 data 部分），额外加 api 变量。
     - 其中 api.query 为接口发送的 query 参数，api.body 为接口发送的内容体原始数据
     """
-    replaceData: bool = None
+    replaceData: bool = False
     """返回的数据是否替换掉当前的数据，默认为 false，即：追加，设置成 true 就是完全替换"""
     adaptor: str = None
     """
