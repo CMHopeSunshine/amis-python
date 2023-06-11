@@ -1078,7 +1078,7 @@ class DropDownButton(AmisNode):
     """尺寸"""
     align: Literal['left', 'right'] = None
     """位置"""
-    buttons: list["DropDownButton"] = None
+    buttons: List["DropDownButton"] = None
     """配置下拉按钮"""
     iconOnly: bool = None
     """只显示icon"""
