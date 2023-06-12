@@ -120,7 +120,7 @@ class Page(AmisNode):
     """是否起始拉取 initApi"""
     initFetchOn: Expression = None
     """是否起始拉取 initApi, 通过表达式配置"""
-    interval: int = 3000
+    interval: int = None
     """刷新时间(最小 1000)"""
     silentPolling: bool = False
     """配置刷新时是否显示加载动画"""
@@ -3684,7 +3684,7 @@ class CRUD(AmisNode):
     """设置过滤器默认是否可见。"""
     initFetch: bool = True
     """是否初始化的时候拉取数据, 只针对有 filter 的情况, 没有 filter 初始都会拉取数据"""
-    interval: int = 3000
+    interval: int = None
     """刷新时间(最低 1000)"""
     silentPolling: bool = False
     """配置刷新时是否隐藏加载动画"""
@@ -4949,7 +4949,7 @@ class Tasks(AmisNode):
     """提交任务使用的 API"""
     reSubmitApi: API = None
     """如果任务失败，且可以重试，提交的时候会使用此 API"""
-    interval: int = 3000
+    interval: int = None
     """当有任务进行中，会每隔一段时间再次检测，而时间间隔就是通过此项配置，默认 3s。"""
     taskNameLabel: str = "任务名称"
     """任务名称列说明"""
