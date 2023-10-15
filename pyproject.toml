@@ -1,30 +1,77 @@
 [tool.poetry]
 name = "amis-python"
-version = "1.0.8post2"
+version = "2.0.0"
 description = "基于百度amis前端框架的python pydantic模型封装。"
-authors = ["惜月 <277073121@qq.com>"]
+authors = ["CMHopeSunshine <277073121@qq.com>"]
 readme = "README.md"
 license = "Apache-2.0"
 keywords = ["amis"]
-homepage = "https://github.com/CMHopeSunshine/amis-py"
-repository = "https://github.com/CMHopeSunshine/amis-py"
-documentation = "https://github.com/CMHopeSunshine/amis-py#readme"
-packages = [
-    { include = "amis"}
-]
+homepage = "https://github.com/CMHopeSunshine/amis-python"
+repository = "https://github.com/CMHopeSunshine/amis-python"
+documentation = "https://github.com/CMHopeSunshine/amis-python#readme"
+packages = [{ include = "amis" }]
 
-
-[[tool.poetry.source]]
-name = "ali"
-default = true
-url = "https://mirrors.aliyun.com/pypi/simple/"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 pydantic = "^1.9.2"
-jinja2 = "^3.1.2"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.0.277"
+black = "^23.1.0"
+pre-commit = "^3.1.0"
+
+[tool.black]
+line-length = 120
+include = '\.pyi?$'
+extend-exclude = '''
+'''
+skip-string-normalization = true
+target-version = ["py38", "py39", "py310", "py311"]
+
+[tool.ruff]
+select = [
+    "E",
+    "W",   # pycodestyle
+    "F",   # pyflakes
+    "UP",  # pyupgrade
+    "I",   # isort
+    "Q",   # flake8-quotes
+    "PTH", # flake8-use-pathlib
+    "RET", # flake8-return
+    "RSE", # flake8-raise
+    "T20", # flake8-print
+    "PIE", # flake8-pie
+    "SIM", # flake8-simplify
+    "ISC", # flake8-implicit-str-concat
+    "C4",  # flake8-comprehensions
+    "COM", # flake8-commas
+    "B",   # flake8-bugbear
+]
+ignore = ["E402", "B008", "F403", "F405", "B005"]
+line-length = 120
+target-version = "py38"
+ignore-init-module-imports = true
+
+
+[tool.ruff.isort]
+force-sort-within-sections = true
+extra-standard-library = ["typing_extensions"]
+force-wrap-aliases = true
+combine-as-imports = true
+order-by-type = false
+relative-imports-order = "closest-to-furthest"
+section-order = [
+    "future",
+    "standard-library",
+    "first-party",
+    "local-folder",
+    "third-party",
+]
+
+[tool.ruff.pycodestyle]
+ignore-overlong-task-comments = true
+max-doc-length = 120
 
 
 [build-system]

@@ -1,7 +1,7 @@
 ## amis-python
 <p align="center">
     <a href="https://cdn.jsdelivr.net/gh/CMHopeSunshine/amis-python@master/LICENSE"><img src="https://img.shields.io/github/license/CMHopeSunshine/amis-python" alt="license"></a>
-    <img src="https://img.shields.io/badge/Python-3.7+-yellow" alt="python">
+    <img src="https://img.shields.io/badge/Python-3.8+-yellow" alt="python">
     <img src="https://img.shields.io/pypi/v/amis-python" alt="version">
 </p>
 
